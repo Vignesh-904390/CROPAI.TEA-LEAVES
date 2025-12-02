@@ -1,5 +1,6 @@
 {
   "blister blight": {
+<<<<<<< HEAD
     "type": "fungal",
     "fertilizer": "10-10-10 NPK fertilizer, 100 g per plant every 6–8 weeks",
     "water": "60%",
@@ -300,3 +301,145 @@
     "தடுப்பு முறைகள்": "வழக்கமான கத்தரித்தல், வயல் சுகாதாரம், ஒருங்கிணைந்த பூச்சி மேலாண்மை (IPM)"
   }
 }
+=======
+    "fertilizer": "10-10-10 NPK fertilizer, 100 g per plant every 6–8 weeks",
+    "water": "Avoid waterlogging; irrigate early morning, ~60 % field capacity",
+    "medicine": ["Copper oxychloride 0.2 %", "Mancozeb 0.25 %"],
+    "organic_medicine": ["Neem oil (0.5 %) fortnightly", "Garlic-chili extract spray"],
+    "prevention": "Ensure good air flow, shade management, prune dense growth, discard infected litter"
+  },
+  "grey leaf": {
+    "fertilizer": "Apply 100 g 16-16-16 NPK per bush every 8 weeks",
+    "water": "Maintain ~65 % soil moisture, avoid evening watering",
+    "medicine": ["Carbendazim 0.1 %", "Chlorothalonil 0.2 %"],
+    "organic_medicine": ["Neem cake 250 g per plant at planting", "Trichoderma harzianum soil drench"],
+    "prevention": "Improve drainage, remove diseased leaves, maintain plucking standards"
+  },
+  "brown blight": {
+    "fertilizer": "Single super phosphate 200 g per plant annually",
+    "water": "Keep soil slightly dry (~55 %), avoid leaf wetting",
+    "medicine": ["Mancozeb 0.2 %", "Copper hydroxide 0.2 %"],
+    "organic_medicine": ["Neem leaf decoction", "Cow dung slurry soil drench"],
+    "prevention": "Sanitize field, prune lower branches, avoid spray drift"
+  },
+  "bird eye spot": {
+    "fertilizer": "Balanced NPK (10-10-10), 100 g per plant every 6 weeks",
+    "water": "Sprinkle early morning; avoid standing water",
+    "medicine": ["Chlorothalonil 0.2 %", "Copper oxychloride 0.2 %"],
+    "organic_medicine": ["Neem oil 0.5 %", "Aloe vera extract spray"],
+    "prevention": "Provide spacing, mulch fallen leaves, ensure sunlight penetration"
+  },
+  "shot hole": {
+    "fertilizer": "Potassium sulfate 100 g per plant quarterly",
+    "water": "Maintain ~60 % soil moisture; avoid foliage wetness",
+    "medicine": ["Mancozeb 0.25 %", "Copper oxychloride 0.2 %"],
+    "organic_medicine": ["Neem oil emulsion 0.5 %", "Garlic clove solution"],
+    "prevention": "Clean fallen debris, prune infected twigs, improve airflow"
+  },
+  "Anthracnose ": {
+    "fertilizer": "Biofertilizer with P-solubilizers, e.g. phosphate-solubilizing bacteria",
+    "water": "Keep root zone moist (~65 %), avoid foliage irrigation",
+    "medicine": ["Copper oxychloride 0.2 %", "Carbendazim 0.1 %"],
+    "organic_medicine": ["Neem oil 0.5 %", "Trichoderma foliar spray"],
+    "prevention": "Avoid overcrowding, disinfect tools after pruning"
+  },
+  "Grey Leaf Spot": {
+    "fertilizer": "Apply potash (K2O) 50 g per plant every 2 months",
+    "water": "Keep foliage dry—water at soil level in morning",
+    "medicine": ["Azoxystrobin 0.05 %", "Chlorothalonil 0.2 %"],
+    "organic_medicine": ["Neem-based spray", "Baking soda (1 tsp per L) foliar spray"],
+    "prevention": "Remove weed hosts, ensure air circulation, avoid splash irrigation"
+  },
+  "white spot": {
+    "fertilizer": "Potassium nitrate 1 g per L foliar feed monthly",
+    "water": "Spray early morning; avoid humid microclimate",
+    "medicine": ["Mancozeb 0.2 %", "Remove infected leaves"], 
+    "organic_medicine": ["Neem formulations", "Trichoderma harzianum"],
+    "prevention": "Avoid overhead irrigation, prune dense canopy, sanitize tools"
+  },
+  "black leaf spot": {
+    "fertilizer": "Urea 50 g per plant monthly to boost nitrogen",
+    "water": "Maintain soil moisture ~60 %, avoid wet foliage",
+    "medicine": ["Chlorothalonil 0.2 %", "Mancozeb 0.2 %"],
+    "organic_medicine": ["Neem extract 0.5 %", "Garlic spray"],
+    "prevention": "Remove lower infected leaves, improve field hygiene"
+  },
+  "downy mildew": {
+    "fertilizer": "Bone meal 100 g per plant for phosphorus",
+    "water": "Keep soil ~55 %; avoid evening irrigation",
+    "medicine": ["Metalaxyl-M 0.05 % + Mancozeb 0.2 %", "Copper oxychloride 0.2 %"],
+    "organic_medicine": ["Neem oil 0.5 %", "Baking soda spray"],
+    "prevention": "Reduce humidity, space plants, remove infected tissues"
+  },
+  "powdery mildew": {
+    "fertilizer": "Apply 10-10-10 NPK 100 g per plant monthly",
+    "water": "Avoid heavy nitrogen; irrigate soil only",
+    "medicine": ["Sulphur dusting 3 g/L", "Hexaconazole 0.05 %"],
+    "organic_medicine": ["Milk spray (10 %)", "Neem oil"],
+    "prevention": "Improve airflow, avoid excess nitrogen, prune shady branches"
+  },
+  "sooty mold": {
+    "fertilizer": "10-10-10 NPK balanced feed monthly",
+    "water": "Mild irrigation; wash leaves to remove honeydew",
+    "medicine": ["Insecticide (Imidacloprid) for sap-feeders", "Copper fungicide for fungal growth"],
+    "organic_medicine": ["Neem oil (0.5 %)", "Soap water wash"],
+    "prevention": "Control pests (aphids, mealybugs), clean foliage regularly"
+  },
+  "Cercospora Leaf": {
+    "fertilizer": "Phosphorus + Potassium (e.g. SSP + MOP)",
+    "water": "Moderate soil moisture (~65 %), avoid foliage wetness",
+    "medicine": ["Mancozeb 0.2 %", "Chlorothalonil 0.2 %"],
+    "organic_medicine": ["Neem foliar spray", "Garlic extract"],
+    "prevention": "Remove infected leaves, improve air flow, avoid splash irrigation"
+  },
+  "Helminthosporium Leaf": {
+    "fertilizer": "10-10-10 NPK monthly",
+    "water": "Maintain ~60 %, avoid wet leaves overnight",
+    "medicine": ["Carbendazim 0.1 %", "Mancozeb 0.2 %"],
+    "organic_medicine": ["Neem oil", "Trichoderma harzianum soil drench"],
+    "prevention": "Ensure good drainage; space plants well"
+  },
+  "Red leaf spot": {
+    "fertilizer": "Potassium nitrate foliar feed (1 g/L)",
+    "water": "Moderate moisture (~65 %), avoid high humidity",
+    "medicine": ["Copper oxychloride 0.2 %", "Bordeaux mixture 1 %"],
+    "organic_medicine": ["Neem oil spray", "Seaweed extract foliar feed"],
+    "prevention": "Prune and sun-dry infected branches, reduce shade"
+  },
+  "algal leaf": {
+    "fertilizer": "Potassium nitrate 1 g/L foliar, monthly",
+    "water": "60–70 % soil moisture, keep leaves clear",
+    "medicine": ["Copper fungicide 0.2 %", "Bordeaux mixture 1 %"],
+    "organic_medicine": ["Neem oil", "Seaweed extract"],
+    "prevention": "Improve sunlight penetration, remove algae-covered leaves"
+  },
+  "Bacterial Leaf blight": {
+    "fertilizer": "Low nitrogen; apply potassium sulfate 100 g/plant",
+    "water": "Keep dry; irrigate early and avoid splash",
+    "medicine": ["Copper oxychloride 0.2 %", "Streptomycin 0.1 %"],
+    "organic_medicine": ["Garlic extract (allelopathic effect)", "Neem oil 0.5 %"],
+    "prevention": "Use clean planting material, sanitize pruning shears"
+  },
+  "Mosaic Virus": {
+    "fertilizer": "Balanced NPK with micronutrient chelate–monthly soil application",
+    "water": "Keep consistent moisture (~65 %)",
+    "medicine": ["No direct treatment; control insect vectors (aphids)"],
+    "organic_medicine": ["Neem oil with pyrethrin for vector control", "Seaweed extract foliar feed"],
+    "prevention": "Use virus‐free materials, row separation, regular vector scouting"
+  },
+  "Yellowing Chlorosis": {
+    "fertilizer": "Apply chelated iron (Fe-EDDHA) 100 g/plant, magnesium sulfate 50 g",
+    "water": "Ensure irrigation to avoid drought before chlorosis onset",
+    "medicine": ["Chelated iron foliar spray", "Treat root rot if present"],
+    "organic_medicine": ["Seaweed extract", "Compost tea drench"],
+    "prevention": "Balance soil pH (6–6.5), test for micronutrient deficiencies"
+  },
+  "healthy": {
+    "fertilizer": "Balanced NPK (10-10-10) 100 g/plant monthly",
+    "water": "Maintain ~65 % soil moisture via drip irrigation",
+    "medicine": ["Not required"],
+    "organic_medicine": ["Mulching, compost, beneficial microbes"],
+    "prevention": "Routine pruning, field sanitation, integrated pest management (IPM)"
+  }
+}
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2

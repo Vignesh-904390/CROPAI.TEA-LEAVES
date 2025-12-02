@@ -32,18 +32,28 @@ mail = Mail(app)
 
 # === Device Configuration ===
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+<<<<<<< HEAD
 print(f"📦 Using device: {device}")
+=======
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 
 # === Load Model ===
 checkpoint = torch.load(MODEL_PATH, map_location=device)
 class_names = checkpoint['class_names']
 
+<<<<<<< HEAD
 model = models.efficientnet_b0(pretrained=False)
+=======
+model = models.efficientnet_b0(weights=None)  # updated per torchvision warning
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, len(class_names))
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)
 model.eval()
+<<<<<<< HEAD
 print("🧠 Tea EfficientNet model loaded.")
+=======
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 
 # === Transform ===
 transform = transforms.Compose([
@@ -51,6 +61,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
+<<<<<<< HEAD
 # === Load Disease Info ===
 def normalize_key(name):
     return ''.join(e.lower() for e in name.strip() if e.isalnum())
@@ -101,6 +112,21 @@ REGION_GRID = (2, 2)  # split image into 2x2 regions
 
 # === Daily stats ===
 daily_stats = {"count": 0, "timestamps": []}
+=======
+def normalize_key(name):
+    return ''.join(e.lower() for e in name.strip() if e.isalnum())
+
+# === Fix: Specify UTF-8 encoding ===
+with open(DISEASE_JSON_PATH, 'r', encoding='utf-8') as f:
+    raw_disease_details = json.load(f)
+
+disease_details = { normalize_key(k): v for k,v in raw_disease_details.items() }
+
+REGION_GRID = (2,2)
+
+# === Daily stats ===
+daily_stats = {"count":0, "timestamps":[]}
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 
 def log_click():
     daily_stats["count"] += 1
@@ -110,7 +136,11 @@ def send_daily_report():
     if daily_stats["count"] == 0:
         return
     try:
+<<<<<<< HEAD
         msg = Message("📊 Daily Click Report - Tea Disease Detection",
+=======
+        msg = Message("📊 Daily Click Report - TEA Disease Detection",
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
                       sender=app.config['MAIL_USERNAME'],
                       recipients=['tdaitech@gmail.com'])
         times = "\n".join(daily_stats["timestamps"])
@@ -125,7 +155,10 @@ scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(send_daily_report, 'cron', hour=23, minute=59)
 scheduler.start()
 
+<<<<<<< HEAD
 # === Image Split ===
+=======
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 def split_image_regions(image, grid=(2,2)):
     w, h = image.size
     ws, hs = w // grid[0], h // grid[1]
@@ -136,6 +169,7 @@ def split_image_regions(image, grid=(2,2)):
             regions.append(image.crop((left, top, left+ws, top+hs)))
     return regions
 
+<<<<<<< HEAD
 # === Send Prediction Result Email ===
 def send_prediction_result_email(filename, prediction_results, image_path=None):
     try:
@@ -230,6 +264,8 @@ def extract_disease_details(disease_data, label):
     }
 
 # === Routes ===
+=======
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -266,6 +302,7 @@ def predict_image():
     label = "Healthy" if best_label.lower() == "healthy" else best_label
     d = disease_details.get(normalize_key(label), {})
 
+<<<<<<< HEAD
     # Use the new function to extract details from JSON
     disease_info = extract_disease_details(d, label)
     
@@ -276,6 +313,16 @@ def predict_image():
 
     # Send prediction result to email
     send_prediction_result_email(filename, info, path)
+=======
+    info = [{"label": label, "details": {
+        "explanation": d.get("explanation", f"Detected {label}."),
+        "water": d.get("water", "N/A"),
+        "fertilizer": d.get("fertilizer", "N/A"),
+        "medicine": d.get("medicine", ["N/A"]),
+        "organic_medicine": d.get("organic_medicine", ["N/A"]),
+        "prevention": d.get("prevention", "N/A")
+    }}]
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 
     return render_template('index.html', multi_predictions=info,
                            image_url=url_for('static', filename='uploads/' + filename))
@@ -326,6 +373,7 @@ def predict_video():
     info = []
     for l in mc:
         d = disease_details.get(normalize_key(l), {})
+<<<<<<< HEAD
         # Use the new function to extract details from JSON
         disease_info = extract_disease_details(d, l)
         info.append({
@@ -339,6 +387,19 @@ def predict_video():
     return render_template('index.html', multi_predictions=info, image_url=None)
 
 # === Contact Email ===
+=======
+        info.append({"label": l, "details": {
+            "explanation": d.get("explanation", f"Detected {l}."),
+            "water": d.get("water", "N/A"),
+            "fertilizer": d.get("fertilizer", "N/A"),
+            "medicine": d.get("medicine", ["N/A"]),
+            "organic_medicine": d.get("organic_medicine", ["N/A"]),
+            "prevention": d.get("prevention", "N/A")
+        }})
+
+    return render_template('index.html', multi_predictions=info, image_url=None)
+
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
 @app.route('/send_email', methods=['POST'])
 def send_email():
     log_click()
@@ -352,14 +413,22 @@ def send_email():
         return redirect('/')
 
     try:
+<<<<<<< HEAD
         m = Message("🍃 New Contact Request", sender=app.config['MAIL_USERNAME'], recipients=['tdaitech@gmail.com'])
+=======
+        m = Message("🌿 New Contact Request", sender=app.config['MAIL_USERNAME'], recipients=['tdaitech@gmail.com'])
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
         m.body = f"Name:{name}\nEmail:{email}\nMessage:{msgt}"
         if photo and photo.filename:
             fn = secure_filename(photo.filename)
             fp = os.path.join(UPLOAD_FOLDER, fn)
             photo.save(fp)
+<<<<<<< HEAD
             with open(fp,'rb') as f: 
                 m.attach(fn, "image/jpeg", f.read())
+=======
+            with open(fp,'rb') as f: m.attach(fn, "image/jpeg", f.read())
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
         mail.send(m)
 
         r = Message("✅ Thank you!", sender=app.config['MAIL_USERNAME'], recipients=[email])
@@ -371,4 +440,8 @@ def send_email():
     return redirect('/')
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(host="0.0.0.0", port=5000, debug=True)
+=======
+    app.run(host="0.0.0.0", port=5000, debug=True)
+>>>>>>> 8ecf04359c8f33a25158e3d62aa2ac783730e2e2
