@@ -18,16 +18,16 @@ app = Flask(__name__)
 app.secret_key = 'f3956c777cebc566ffb95408917364c2'
 
 UPLOAD_FOLDER = 'static/uploads'
-MODEL_PATH = 'model/tea_effnet.pth'  # <-- TEA model
-DISEASE_JSON_PATH = 'tea_disease_info.json'  # <-- TEA disease JSON
+MODEL_PATH = 'model/tea_effnet.pth'  # Changed to tea model
+DISEASE_JSON_PATH = 'tea_disease_info.json'  # Changed to tea disease info
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # === Mail Configuration ===
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'v9630094@gmail.com'
-app.config['MAIL_PASSWORD'] = 'rtwt opco zptt jwvz'
+app.config['MAIL_USERNAME'] = 'v9630094@gmail.com'  # Update with your email
+app.config['MAIL_PASSWORD'] = 'rtwt opco zptt jwvz'  # Update with your app password
 mail = Mail(app)
 
 # === Device Configuration ===
@@ -39,7 +39,6 @@ checkpoint = torch.load(MODEL_PATH, map_location=device)
 class_names = checkpoint['class_names']
 
 model = models.efficientnet_b0(pretrained=False)
-model = models.efficientnet_b0(weights=None)  # updated per torchvision warning
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, len(class_names))
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)
@@ -66,7 +65,6 @@ try:
         _used_encoding = 'utf-8'
 except UnicodeDecodeError:
     try:
-        # try with cp1252 (windows default) or latin-1 as a permissive fallback
         with open(DISEASE_JSON_PATH, 'r', encoding='cp1252') as f:
             raw_disease_details = json.load(f)
             _used_encoding = 'cp1252'
@@ -111,9 +109,9 @@ def send_daily_report():
     if daily_stats["count"] == 0:
         return
     try:
-        msg = Message("📊 Daily Click Report - Tea Disease Detection",
+        msg = Message("📊 Daily Click Report - Tea Plant Disease Detection",
                       sender=app.config['MAIL_USERNAME'],
-                      recipients=['tdaitech@gmail.com'])
+                      recipients=['tdaitech@gmail.com'])  # Update recipient email
         times = "\n".join(daily_stats["timestamps"])
         msg.body = f"Total Clicks Today: {daily_stats['count']}\n\nTimes:\n{times}"
         mail.send(msg)
@@ -140,13 +138,13 @@ def split_image_regions(image, grid=(2,2)):
 # === Send Prediction Result Email ===
 def send_prediction_result_email(filename, prediction_results, image_path=None):
     try:
-        msg = Message("🍃 New Tea Disease Detection Result",
+        msg = Message("🍵 New Tea Plant Disease Detection Result",
                       sender=app.config['MAIL_USERNAME'],
-                      recipients=['tdaitech@gmail.com'])
+                      recipients=['tdaitech@gmail.com'])  # Update recipient email
         
         # Create email body with prediction results
         email_body = f"""
-        🔍 Tea Disease Detection Result
+        🔍 Tea Plant Disease Detection Result
         
         📄 File Name: {filename}
         ⏰ Detection Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -186,7 +184,7 @@ def send_prediction_result_email(filename, prediction_results, image_path=None):
 
 # === Extract details from new JSON format ===
 def extract_disease_details(disease_data, label):
-    """Extract disease details from the new JSON format with both English and Tamil keys"""
+    """Extract disease details from the JSON format"""
     if not disease_data:
         return {
             "explanation": f"Detected {label}.",
@@ -197,7 +195,7 @@ def extract_disease_details(disease_data, label):
             "prevention": "N/A"
         }
     
-    # Extract English details
+    # Extract details
     explanation = disease_data.get("explanation", f"Detected {label}.")
     water = disease_data.get("water", "N/A")
     fertilizer = disease_data.get("fertilizer", "N/A")
@@ -205,33 +203,17 @@ def extract_disease_details(disease_data, label):
     organic_medicine = disease_data.get("organic_medicine", ["N/A"])
     prevention = disease_data.get("prevention", "N/A")
     
-    # Extract Tamil details
-    tamil_explanation = disease_data.get("விளக்கம்", explanation)
-    tamil_water = disease_data.get("நீர்", water)
-    tamil_fertilizer = disease_data.get("உரம்", fertilizer)
-    tamil_medicine = disease_data.get("மருந்து", medicine)
-    tamil_organic_medicine = disease_data.get("கரிம மருந்து", organic_medicine)
-    tamil_prevention = disease_data.get("தடுப்பு முறைகள்", prevention)
-    
     return {
         "explanation": explanation,
         "water": water,
         "fertilizer": fertilizer,
         "medicine": medicine,
         "organic_medicine": organic_medicine,
-        "prevention": prevention,
-        "tamil_details": {
-            "விளக்கம்": tamil_explanation,
-            "நீர்": tamil_water,
-            "உரம்": tamil_fertilizer,
-            "மருந்து": tamil_medicine,
-            "கரிம மருந்து": tamil_organic_medicine,
-            "தடுப்பு முறைகள்": tamil_prevention
-        }
+        "prevention": prevention
     }
 
 # === Routes ===
-# @app.route('/')
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -241,7 +223,6 @@ def predict_image():
     if 'image' not in request.files or request.files['image'].filename == '':
         flash("❌ No image uploaded", "danger")
         return redirect('/')
-    
     file = request.files['image']
     filename = secure_filename(file.filename)
     path = os.path.join(UPLOAD_FOLDER, filename)
@@ -267,7 +248,7 @@ def predict_image():
     label = "Healthy" if best_label.lower() == "healthy" else best_label
     d = disease_details.get(normalize_key(label), {})
 
-    # Use the new function to extract details from JSON
+    # Use the function to extract details from JSON
     disease_info = extract_disease_details(d, label)
     
     info = [{
@@ -278,8 +259,7 @@ def predict_image():
     # Send prediction result to email
     send_prediction_result_email(filename, info, path)
 
-    return render_template('index.html', multi_predictions=info,
-                           image_url=url_for('static', filename='uploads/' + filename))
+    return render_template('index.html', multi_predictions=info, image_url=url_for('static', filename='uploads/'+filename))
 
 @app.route('/predict_video', methods=['POST'])
 def predict_video():
@@ -287,7 +267,6 @@ def predict_video():
     if 'video' not in request.files or request.files['video'].filename == '':
         flash("❌ No video uploaded", "danger")
         return redirect('/')
-    
     f = request.files['video']
     name = secure_filename(f.filename)
     vp = os.path.join(UPLOAD_FOLDER, name)
@@ -300,7 +279,8 @@ def predict_video():
     preds, i = [], 0
     while cap.isOpened():
         r, frm = cap.read()
-        if not r: break
+        if not r:
+            break
         if i % interval == 0:
             g = cv2.cvtColor(frm, cv2.COLOR_BGR2GRAY)
             if 40 < np.mean(g) < 220:
@@ -327,7 +307,7 @@ def predict_video():
     info = []
     for l in mc:
         d = disease_details.get(normalize_key(l), {})
-        # Use the new function to extract details from JSON
+        # Extract disease details
         disease_info = extract_disease_details(d, l)
         info.append({
             "label": l, 
@@ -339,6 +319,7 @@ def predict_video():
 
     return render_template('index.html', multi_predictions=info, image_url=None)
 
+# === Contact Email ===
 @app.route('/send_email', methods=['POST'])
 def send_email():
     log_click()
@@ -346,30 +327,29 @@ def send_email():
     email = request.form.get('email')
     msgt = request.form.get('message')
     photo = request.files.get('photo')
-
-    if not(name and email and msgt):
+    if not (name and email and msgt):
         flash("❗ Fill all fields", "warning")
         return redirect('/')
-
     try:
-        m = Message("🌿 New Contact Request", sender=app.config['MAIL_USERNAME'], recipients=['tdaitech@gmail.com'])
+        m = Message("🍵 New Contact Request - Tea Plant Disease Detection", 
+                    sender=app.config['MAIL_USERNAME'], 
+                    recipients=['tdaitech@gmail.com'])  # Update recipient email
         m.body = f"Name:{name}\nEmail:{email}\nMessage:{msgt}"
         if photo and photo.filename:
             fn = secure_filename(photo.filename)
             fp = os.path.join(UPLOAD_FOLDER, fn)
             photo.save(fp)
-            with open(fp,'rb') as f: m.attach(fn, "image/jpeg", f.read())
+            with open(fp, 'rb') as f:
+                m.attach(fn, "image/jpeg", f.read())
         mail.send(m)
-
         r = Message("✅ Thank you!", sender=app.config['MAIL_USERNAME'], recipients=[email])
-        r.body = f"Hi {name},\nWe received your message."
+        r.body = f"Hi {name},\nWe received your message regarding tea plant disease detection."
         mail.send(r)
         flash("✅ Message sent!", "success")
-    except:
-        flash("❌ Failed to send", "danger")
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        flash("❌ Failed to send message", "danger")
     return redirect('/')
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
